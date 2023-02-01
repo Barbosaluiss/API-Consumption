@@ -2,6 +2,7 @@ const params = new URLSearchParams(window.location.search)
 const id = params.get("id")
 
 async function eventId(){
+    try{
     let inputName = document.querySelector("#nome")
     let inputBanner = document.querySelector("#banner")
     let inputAttractions = document.querySelector("#atracoes")
@@ -9,7 +10,6 @@ async function eventId(){
     let inputScheduled = document.querySelector("#data")
     let inputTickets = document.querySelector("#lotacao")
 
-    try{
     let res = await fetch(`https://soundgarden-api.deta.dev/events/${id}`)
     let data = await res.json()
 
@@ -30,6 +30,7 @@ eventId()
 
 const btn = document.querySelector("#btn")
 .addEventListener('click', async (event)=>{
+    try {
     event.preventDefault()
 
     let eventName = document.querySelector("#nome")
@@ -49,17 +50,17 @@ const btn = document.querySelector("#btn")
         "number_tickets": Number(tickets.value) 
     }
 
-    try {
-        let res = await fetch(`https://soundgarden-api.deta.dev/events/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type" : "application/json",    
-            },
-            body: JSON.stringify(raw)
-        })
-        let data = await res.json()
-        
-        alert("Evento atualizado!")
+    
+    let res = await fetch(`https://soundgarden-api.deta.dev/events/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type" : "application/json",    
+        },
+        body: JSON.stringify(raw)
+    })
+    let data = await res.json()
+    
+    alert("Evento atualizado!")
     } catch (error) {
         console.log(error)
     }
