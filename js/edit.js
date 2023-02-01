@@ -1,4 +1,6 @@
-const ID = "63d976903d33d3fb68fe1f31"
+const URL_ATUAL = window.location.search;
+let parametros = new URLSearchParams(URL_ATUAL);
+const ID = parametros.get("id");
 
 async function events(){
     try{
@@ -25,12 +27,12 @@ async function events(){
     inputDescription.value = data.description
     inputSchedule.value = data.scheduled
     inputTickets.value = data.number_tickets
+    
     }catch(error){
-        console.log(error)
+       console.log(error)
     }   
 }
-
-events()
+events(ID)
 
 //Update Event
 
@@ -42,6 +44,7 @@ const tickets = document.querySelector("#lotacao")
 const btn = document.querySelector("#btn")
 
 btn.addEventListener("click", async (event)=>{
+    event.preventDefault()
 
     let raw = {
         "name": eventName.value,
@@ -54,7 +57,6 @@ btn.addEventListener("click", async (event)=>{
         "number_tickets": Number(tickets.value) 
     }
 
-    event.preventDefault()
     try {
         const response = await fetch(`https://soundgarden-api.deta.dev/events/${ID}`, {
             method: "PUT",
@@ -68,7 +70,7 @@ btn.addEventListener("click", async (event)=>{
         const resData = await response.json()
 
         console.log(resData)
-        //alert("Evento atualizado")
+        alert("Evento atualizado")
     } catch (error) {
         console.log(error)
     }
